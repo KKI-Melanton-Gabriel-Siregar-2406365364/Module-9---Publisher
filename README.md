@@ -1,15 +1,15 @@
 1. In one single run, the publisher program will send exactly five event messages to the message broker. Each of these messages is a UserCreatedEventMessage containing a distinct user ID (1 through 5) and a username string formatted with my specific NPM (2406365364).
 2. The URL amqp://guest:guest@localhost:5672 is precisely the same as the subscriber's URL because both applications must connect to the exact same RabbitMQ message broker to communicate. The publisher uses this URL to know exactly where to send the event data it generates. Conversely, the subscriber listens at this identical address to retrieve and process any new messages placed in the queue. If they used different URLs, they would be communicating with completely different servers, and the event-driven architecture would fail because the messages would never reach their intended destination.
 
-Overview Tab Screenshot : ![alt text](OverviewTab.png)
-Publisher Terminal Screenshot : ![alt text](PublisherTerminal.png)
-Subscriber Terminal Screenshot : ![alt text](SubscriberTerminal.png)
+Overview Tab Screenshot : ![Overview Tab](assets/Overview%20Tab.png)
+Publisher Terminal Screenshot : ![Publisher Terminal](assets/PublisherTerminal.png)
+Subscriber Terminal Screenshot : ![Subscriber Terminal](assets/SubscriberTerminal.png)
 
-Messages Rates Chart Screenshot : ![alt text](MessageChart.png)
+Messages Rates Chart Screenshot : ![Message Rates Chart](assets/MessageChart.png)
 This chart represents the exact procedure of your Event-Driven Architecture! The Y-Axis (Vertical): This measures throughput, specifically the number of messages processed per second (e.g., 0.5/s, 1.0/s). The X-Axis (Horizontal): This represents a rolling window of time (the "last minute" as indicated at the top).
 
-Queued Messages Chart Screenshot : ![alt text](QueuedMessages.png)
+Queued Messages Chart Screenshot : ![Queued Messages Chart](assets/QueuedMessages.png)
 The total number of queued messages spiked significantly because the publisher is sending data at a much faster rate than the subscriber can process it. By uncommenting the thread::sleep function, we intentionally introduced an artificial delay of one full second for every message handled by the subscriber. While the subscriber is stuck waiting on this delay, the publisher continues to instantly dispatch multiple events into the system. RabbitMQ safely stores these pending messages in its queue to prevent any data loss during this bottleneck. This perfectly simulates a real-world scenario where high user demand temporarily overwhelms a backend service's computing capacity. The message broker acts as a crucial buffer, ensuring the system doesn't crash by holding the events and slowly feeding them to the subscriber as it becomes available.
 
-Running separate subscriber instances : ![alt text](image.png)
+Running separate subscriber instances : ![Three Subscribers](assets/ThreeSubscribers.png)
 By running three separate subscriber instances simultaneously, we can clearly observe that the queued message spike in RabbitMQ reduces much quicker than before. This rapid draining occurs because the message broker automatically distributes the incoming events across all available consumers, effectively parallelizing the workload. When looking at the three subscriber consoles, we can see that the processing is cleanly split; no single instance handles all the messages. This horizontal scaling ensures that our system can handle high demand without crashing, preventing any single slow application from causing a massive bottleneck. To further improve the architecture and code in our publisher and subscriber, we could implement a dead-letter queue to safely handle any messages that fail to process during these high-traffic bursts, and we should ensure our message payloads are kept as lightweight as possible to minimize network overhead.
