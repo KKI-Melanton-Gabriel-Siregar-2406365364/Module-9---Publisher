@@ -1,6 +1,8 @@
 1. In one single run, the publisher program will send exactly five event messages to the message broker. Each of these messages is a UserCreatedEventMessage containing a distinct user ID (1 through 5) and a username string formatted with my specific NPM (2406365364).
 2. The URL amqp://guest:guest@localhost:5672 is precisely the same as the subscriber's URL because both applications must connect to the exact same RabbitMQ message broker to communicate. The publisher uses this URL to know exactly where to send the event data it generates. Conversely, the subscriber listens at this identical address to retrieve and process any new messages placed in the queue. If they used different URLs, they would be communicating with completely different servers, and the event-driven architecture would fail because the messages would never reach their intended destination.
 
-Overview Tab Screenshot : ![alt text](image.png)
-Publisher Terminal Screenshot : ![alt text](image.png)
-Subscriber Terminal Screenshot : ![alt text](image.png)
+Overview Tab Screenshot : ![alt text](OverviewTab.png)
+Publisher Terminal Screenshot : ![alt text](PublisherTerminal.png)
+Subscriber Terminal Screenshot : ![alt text](SubscriberTerminal.png)
+Messages Rates Chart Screenshot : ![alt text](MessageChart.png)
+This chart represents the exact procedure of your Event-Driven Architecture! The Y-Axis (Vertical): This measures throughput, specifically the number of messages processed per second (e.g., 0.5/s, 1.0/s). The X-Axis (Horizontal): This represents a rolling window of time (the "last minute" as indicated at the top).
