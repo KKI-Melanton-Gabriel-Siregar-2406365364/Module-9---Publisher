@@ -2,3 +2,5 @@
 2. The URL amqp://guest:guest@localhost:5672 is precisely the same as the subscriber's URL because both applications must connect to the exact same RabbitMQ message broker to communicate. The publisher uses this URL to know exactly where to send the event data it generates. Conversely, the subscriber listens at this identical address to retrieve and process any new messages placed in the queue. If they used different URLs, they would be communicating with completely different servers, and the event-driven architecture would fail because the messages would never reach their intended destination.
 
 Overview Tab Screenshot : ![alt text](image.png)
+Publisher Terminal Screenshot : ![alt text](image.png)
+Subscriber Terminal Screenshot : ![alt text](image.png)
